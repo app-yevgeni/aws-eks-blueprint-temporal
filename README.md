@@ -1,5 +1,4 @@
-<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/32bb0732-1328-4f1c-926f-e4745c8f72ef" />
-
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/95981c80-bdfd-4271-bb0b-16b2754087ac" />
 
 
 ## AWS | EKS BluePrint Terrakube
