@@ -41,7 +41,7 @@ module "kong" {
 module "temporal" {
   source = "./modules/temporal"
 
-  depends_on = [module.postgresql, kubernetes_namespace.migration]
+  depends_on = [module.postgresql]
 
   db_host     = module.postgresql.endpoint
   db_port     = module.postgresql.port
