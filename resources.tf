@@ -2,6 +2,10 @@
 ###  ---  Database Services ---  ###
 module "postgresql" {
   source = "./modules/postgresql"
+  depends_on = [
+    aws_eks_cluster.main,
+    aws_eks_node_group.main
+  ]
 
   name       = "temporal-postgres"
   username   = "temporal"
@@ -40,7 +44,13 @@ module "kong" {
 
 module "temporal" {
   source = "./modules/temporal"
-  depends_on = [module.kong]
+  depends_on = [module.postgresql]
+
+  db_host     = module.postgresql.endpoint
+  db_port     = module.postgresql.port
+  db_name     = "temporal"
+  db_user     = "temporal"
+  db_password = var.db_password
 }
 
 module "ingress" {
