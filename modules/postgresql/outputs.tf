@@ -1,8 +1,11 @@
-
-output "endpoint" {
-  value = aws_db_instance.this.address
+output "postgres_endpoint" {
+  value = aws_db_instance.postgres.endpoint
 }
 
-output "port" {
-  value = aws_db_instance.this.port
+output "postgres_port" {
+  value = aws_db_instance.postgres.port
+}
+
+output "postgres_database" {
+  value = aws_db_instance.postgres.db_name
 }
