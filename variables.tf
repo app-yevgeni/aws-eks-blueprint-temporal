@@ -35,3 +35,9 @@ variable "make_gp3_default" {
   type    = bool
   default = true
 }
+
+variable "db_password" {
+  description = "PostgreSQL master password"
+  type        = string
+  sensitive   = true
+}
