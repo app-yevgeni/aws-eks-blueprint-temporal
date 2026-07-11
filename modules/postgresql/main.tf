@@ -1,16 +1,15 @@
+
 resource "aws_security_group" "postgres" {
-  name        = "postgres-sg"
-  description = "Allow PostgreSQL from EKS"
-  vpc_id      = aws_vpc.main.id
+  name        = "postgres-rds-sg"
+  description = "PostgreSQL access from EKS"
+  vpc_id      = data.aws_vpc.main.id
 
   ingress {
-    description = "PostgreSQL"
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-
-    # Replace with your node security group if available
-    cidr_blocks = [aws_vpc.main.cidr_block]
+    description     = "Allow PostgreSQL from EKS nodes"
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [data.aws_security_group.eks_nodes.id]
   }
 
   egress {
@@ -20,23 +19,21 @@ resource "aws_security_group" "postgres" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name = "postgres-sg"
-  }
+  tags = var.tags
 }
 
 
 resource "aws_db_subnet_group" "postgres" {
-  name = "postgres-subnets"
+  name = "postgres-private-subnets"
 
-  subnet_ids = aws_subnet.private[*].id
+  subnet_ids = data.aws_subnets.private.ids
 
-  tags = {
-    Name = "postgres-subnets"
-  }
+  tags = var.tags
 }
 
+
 resource "aws_db_instance" "postgres" {
+
   identifier = "postgres"
 
   engine         = "postgres"
@@ -46,32 +43,43 @@ resource "aws_db_instance" "postgres" {
 
   allocated_storage     = 20
   max_allocated_storage = 100
-  storage_type          = "gp3"
-  storage_encrypted     = true
+
+  storage_type      = "gp3"
+  storage_encrypted = true
+
 
   db_name  = var.db_name
   username = var.db_username
   password = var.db_password
 
+
   port = 5432
 
-  db_subnet_group_name   = aws_db_subnet_group.postgres.name
-  vpc_security_group_ids = [aws_security_group.postgres.id]
+
+  db_subnet_group_name = aws_db_subnet_group.postgres.name
+
+  vpc_security_group_ids = [
+    aws_security_group.postgres.id
+  ]
+
 
   publicly_accessible = false
 
-  multi_az = false
 
   backup_retention_period = 7
 
-  deletion_protection = false
-  skip_final_snapshot = true
+  backup_window = "03:00-04:00"
+
+  maintenance_window = "sun:04:00-sun:05:00"
+
 
   auto_minor_version_upgrade = true
 
-  apply_immediately = true
 
-  tags = {
-    Name = "postgres"
-  }
+  deletion_protection = false
+
+  skip_final_snapshot = true
+
+
+  tags = var.tags
 }
