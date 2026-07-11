@@ -1,11 +1,15 @@
-output "postgres_endpoint" {
-  value = aws_db_instance.postgres.endpoint
+output "endpoint" {
+  value = aws_db_instance.postgres.address
 }
 
-output "postgres_port" {
+output "port" {
   value = aws_db_instance.postgres.port
 }
 
-output "postgres_database" {
+output "database" {
   value = aws_db_instance.postgres.db_name
+}
+
+output "username" {
+  value = aws_db_instance.postgres.username
 }
