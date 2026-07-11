@@ -1,8 +1,8 @@
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/95981c80-bdfd-4271-bb0b-16b2754087ac" />
 
 
-## AWS | EKS BluePrint Terrakube
-Terrakube is an open-source platform for automating and collaborating on infrastructure as code tasks using Terraform or OpenTofu. It distinguishes itself by supporting customizable workflows, private registries, and integrations with version control systems. The platform also allows dynamic credential management and ephemeral workspaces, offering a secure and scalable alternative to proprietary tools like Terraform Enterprise.
+## AWS | EKS BluePrint Temporal
+Temporal Platform: A popular, open-source durable execution engine used by developers to build highly resilient, fault-tolerant applications. It automatically saves execution state, handling retries and system crashes seamlessly.
 
 
 
